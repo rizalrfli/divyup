@@ -4,8 +4,10 @@ namespace Tests\Feature\Admin;
 
 use App\Enums\AssetStatus;
 use App\Enums\Role;
+use App\Enums\Stage;
 use App\Models\Asset;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -90,6 +92,50 @@ class DashboardAndUsersTest extends TestCase
             ->assertSee('Jan 2026')
             ->assertSee('Feb 2026')
             ->assertSee('2 aset');
+    }
+
+    public function test_dashboard_shows_progress_bar_for_each_active_project(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+        $project = Project::factory()->create(['name' => 'Proyek Setengah Jalan']);
+
+        foreach ([Stage::Briefing->value => 'selesai', Stage::Desain->value => 'selesai', Stage::Review->value => 'belum'] as $stage => $status) {
+            Task::create(['project_id' => $project->id, 'stage' => $stage, 'status' => $status]);
+        }
+
+        $this->actingAs($admin)->get('/admin')
+            ->assertOk()
+            ->assertSee('Progres tiap proyek')
+            ->assertSee('Proyek Setengah Jalan')
+            ->assertSee('2 dari 3 tahap selesai')
+            ->assertSee('67%');
+    }
+
+    public function test_dashboard_groups_active_projects_by_current_stage(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+
+        foreach (['Proyek A', 'Proyek B'] as $name) {
+            $project = Project::factory()->create(['name' => $name]);
+            Task::create(['project_id' => $project->id, 'stage' => Stage::Briefing->value, 'status' => 'selesai']);
+            Task::create(['project_id' => $project->id, 'stage' => Stage::Review->value, 'status' => 'proses']);
+        }
+
+        $this->actingAs($admin)->get('/admin')
+            ->assertOk()
+            ->assertSee('Sebaran proyek per tahap')
+            ->assertSee('Menunggu Review')
+            ->assertSee('2 proyek');
+    }
+
+    public function test_dashboard_charts_show_empty_state_without_projects(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+
+        $this->actingAs($admin)->get('/admin')
+            ->assertOk()
+            ->assertSee('Belum ada proyek aktif')
+            ->assertSee('Belum ada aset yang bisa digambarkan');
     }
 
     public function test_report_streams_csv_with_header_row(): void

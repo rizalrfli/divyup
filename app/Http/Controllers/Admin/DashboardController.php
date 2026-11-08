@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\AssetStatus;
 use App\Enums\Role;
+use App\Enums\TaskStatus;
 use App\Models\Asset;
 use App\Models\Project;
 use App\Models\User;
@@ -36,7 +37,69 @@ class DashboardController
             'revisi' => $revisi,
             'pie' => $this->assetStatusPie(),
             'bars' => $this->assetsPerMonth(),
+            'progressList' => $this->progressPerProject($projects),
+            'stageSpread' => $this->projectsPerStage($projects),
         ]);
+    }
+
+    /**
+     * Progres tiap proyek aktif, dihitung dari tahap yang sudah tuntas.
+     *
+     * @param  \Illuminate\Support\Collection<int, Project>  $projects
+     * @return array<int, array<string, mixed>>
+     */
+    private function progressPerProject($projects): array
+    {
+        return $projects
+            ->where('status', 'aktif')
+            ->map(function (Project $project) {
+                $total = $project->tasks->count();
+                $done = $project->tasks
+                    ->whereIn('status', [TaskStatus::Selesai, TaskStatus::Dilewati])
+                    ->count();
+
+                return [
+                    'id' => $project->id,
+                    'name' => $project->name,
+                    'client' => $project->client->name,
+                    'done' => $done,
+                    'total' => $total,
+                    'percent' => $project->progress(),
+                    'overdue' => $project->due_date->isPast(),
+                ];
+            })
+            ->sortBy('percent')
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Sebaran proyek aktif menurut tahap yang sedang dikerjakan.
+     *
+     * @param  \Illuminate\Support\Collection<int, Project>  $projects
+     * @return array<int, array{label: string, count: int, percent: int}>
+     */
+    private function projectsPerStage($projects): array
+    {
+        $active = $projects->where('status', 'aktif');
+
+        $counts = [];
+        foreach ($active as $project) {
+            $label = $project->currentTask()?->stage->label() ?? 'Belum ada tahap';
+            $counts[$label] = ($counts[$label] ?? 0) + 1;
+        }
+
+        $total = $active->count();
+
+        return collect($counts)
+            ->map(fn (int $count, string $label) => [
+                'label' => $label,
+                'count' => $count,
+                'percent' => $total > 0 ? (int) round($count / $total * 100) : 0,
+            ])
+            ->sortByDesc('count')
+            ->values()
+            ->all();
     }
 
     /**

@@ -25,6 +25,11 @@
 
     @include('partials.charts', ['pie' => $pie, 'bars' => $bars])
 
+    @include('partials.project-charts', [
+        'progressList' => $progressList,
+        'stageSpread' => $stageSpread,
+    ])
+
     <div class="panel">
         <h2 class="panel-title">Seluruh proyek</h2>
 

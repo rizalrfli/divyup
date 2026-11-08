@@ -965,6 +965,90 @@ a { color: var(--teal-dark); }
 .legend-value { font-weight: 700; }
 .legend-count { min-width: 20px; text-align: right; font-size: 12px; color: var(--ink-faint); }
 
+/* ---------- Progres per proyek ---------- */
+
+.progress-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+
+.progress-item { display: grid; gap: 6px; }
+
+.progress-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.progress-name {
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.progress-name a { color: var(--ink); text-decoration: none; }
+.progress-name a:hover { color: var(--teal-dark); text-decoration: underline; }
+
+.progress-client {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 400;
+    color: var(--ink-faint);
+}
+
+.progress-value {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.progress-track {
+    height: 8px;
+    background: var(--line-soft);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 20px;
+}
+
+.progress-meta { margin: 0; font-size: 11.5px; color: var(--ink-faint); }
+
+/* ---------- Sebaran per tahap ---------- */
+
+.spread-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+
+.spread-item { display: grid; gap: 5px; }
+
+.spread-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.spread-label { font-weight: 600; }
+.spread-count { font-size: 12px; color: var(--ink-muted); }
+
+.spread-track {
+    height: 8px;
+    background: var(--line-soft);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.spread-fill {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 20px;
+}
+
 @media (max-width: 900px) {
     .chart-row { grid-template-columns: minmax(0, 1fr); }
     .bars { height: 170px; }
