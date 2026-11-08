@@ -48,7 +48,18 @@ Empat proyek supaya setiap keadaan punya wakil:
 | Social Media Management - Maret 2026 | Brand X | Nimas | Review, 1 disetujui dan 2 menunggu |
 | Peluncuran Produk - April 2026 | Brand X | Dedy | Revisi terbuka dengan catatan klien |
 
-Total 20 tahap dan 10 aset, tersebar Januari sampai April 2026, jadi grafik batang dan donat di dasbor punya data nyata untuk dibaca.
+Total 20 tahap dan 10 aset, tersebar Januari sampai April 2026, jadi keempat grafik dasbor punya data nyata untuk dibaca.
+
+## Visualisasi data
+
+Dasbor admin menampilkan empat grafik, semuanya dihitung dari database:
+
+| Grafik | Isi |
+|---|---|
+| Aset masuk per bulan | Jumlah berkas yang diunggah tim per bulan |
+| Distribusi status aset | Donat: menunggu, disetujui, diminta revisi |
+| Progres tiap proyek | Batang mendatar per proyek aktif, diurutkan dari yang paling tertinggal |
+| Sebaran proyek per tahap | Berapa proyek aktif yang sedang berada di tiap tahap |
 
 ## Alur singkat
 

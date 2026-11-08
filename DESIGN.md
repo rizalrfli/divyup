@@ -31,9 +31,18 @@ Palet aktif: dua warna brand plus satu aksen. Netral tidak dihitung.
 
 ## Grafik
 
-Batang dan donat dibuat dengan CSS (`grid` dan `conic-gradient`), tanpa library chart. Alasannya: datanya sederhana, library akan menambah 100 KB JavaScript untuk dua grafik, dan angka tetap terbaca pembaca layar lewat `aria-label`.
+Empat visualisasi di dasbor admin, semuanya dibuat dengan HTML/CSS (`grid`, `conic-gradient`, lebar persentase), tanpa library chart. Alasannya: datanya sederhana, library akan menambah sekitar 100 KB JavaScript untuk empat grafik, dan angka tetap terbaca pembaca layar lewat `aria-label`.
 
-Angka grafik dihitung dari database: batang = jumlah aset per bulan, donat = distribusi status aset. Tidak ada angka tetap di template.
+| Grafik | Bentuk | Menjawab pertanyaan |
+|---|---|---|
+| Aset masuk per bulan | batang tegak | Kapan tim paling banyak mengunggah? |
+| Distribusi status aset | donat | Berapa aset yang masih menunggu, disetujui, atau direvisi? |
+| Progres tiap proyek | batang mendatar | Proyek mana yang paling tertinggal? |
+| Sebaran proyek per tahap | batang mendatar | Di tahap mana proyek menumpuk? |
+
+Semua angka dihitung dari database: batang = jumlah aset per bulan, donat = status aset, progres = tahap tuntas dibagi total tahap, sebaran = tahap berjalan tiap proyek aktif. Tidak ada angka tetap di template, dan setiap grafik punya keadaan kosong yang menyebut apa yang belum ada.
+
+Progres tiap proyek sengaja diurutkan dari yang paling tertinggal, karena pertanyaan pimpinan agensi bukan "proyek mana yang terbaik" melainkan "mana yang perlu didorong".
 
 ## Yang sengaja dihindari
 
