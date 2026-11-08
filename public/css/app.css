@@ -1,0 +1,184 @@
+/* DivyUp e-Reporting
+   Palet dari identitas layanan DivyUp: teal untuk struktur, oranye hanya untuk
+   hal yang menuntut tindakan. Kanvas gading agar tabel padat tidak menyilaukan. */
+
+:root {
+    --teal: #0E7C7B;
+    --teal-dark: #0A5F5E;
+    --teal-soft: #E4F1F0;
+    --orange: #E4732B;
+    --orange-soft: #FBEBDF;
+    --ink: #16233A;
+    --ink-muted: #56637A;
+    --canvas: #F7F7F4;
+    --surface: #FFFFFF;
+    --line: #E3E4DE;
+    --line-strong: #C9CCC4;
+    --radius: 6px;
+    --radius-lg: 10px;
+    --sans: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+    --serif: "Newsreader", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--canvas);
+}
+
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+
+a { color: var(--teal-dark); }
+
+:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+/* ---------- Tombol ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.btn-primary { background: var(--teal); color: #fff; }
+.btn-primary:hover { background: var(--teal-dark); }
+
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost:hover { background: #fff; border-color: var(--ink-muted); }
+
+.btn-danger { background: var(--orange); color: #fff; }
+.btn-danger:hover { background: #C95F1C; }
+
+.btn-block { width: 100%; }
+.btn-sm { min-height: 36px; padding: 6px 12px; font-size: 13px; }
+
+/* ---------- Form ---------- */
+
+.form { display: grid; gap: 16px; }
+
+.field { display: grid; gap: 6px; }
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    font: inherit;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+}
+
+.field textarea { min-height: 96px; resize: vertical; }
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"],
+.field textarea[aria-invalid="true"] { border-color: var(--orange); }
+
+.field-error {
+    margin: 0;
+    font-size: 13px;
+    color: #A33F0C;
+}
+
+.field-hint {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-muted);
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--ink-muted);
+}
+
+.check input { width: 18px; height: 18px; accent-color: var(--teal); }
+
+/* ---------- Login ---------- */
+
+.auth-body {
+    min-height: 100vh;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    padding: 32px 20px;
+    background:
+        linear-gradient(180deg, rgba(14, 124, 123, .07) 0, rgba(14, 124, 123, 0) 220px),
+        var(--canvas);
+}
+
+.auth-shell { width: 100%; max-width: 420px; }
+
+.auth-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--teal);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+}
+
+.wordmark {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    color: var(--teal);
+}
+
+.auth-title {
+    margin: 10px 0 4px;
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.auth-sub {
+    margin: 0 0 22px;
+    font-size: 14px;
+    color: var(--ink-muted);
+}
+
+.auth-foot {
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-muted);
+}
+
+@media (max-width: 420px) {
+    .auth-card { padding: 22px 18px; }
+    .auth-title { font-size: 23px; }
+}
