@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AssetDownloadController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\ApprovalController;
 use App\Http\Controllers\Client\PortalController;
 use App\Http\Controllers\Team;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,8 @@ Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(func
 });
 
 Route::middleware(['auth', 'role:klien'])->prefix('portal')->name('portal.')->group(function () {
-    Route::view('/', 'client.index')->name('dashboard');
+    Route::get('/', [PortalController::class, 'index'])->name('dashboard');
     Route::get('/projects/{project}', [PortalController::class, 'show'])->name('projects.show');
+    Route::post('/assets/{asset}/approve', [ApprovalController::class, 'approve'])->name('assets.approve');
+    Route::post('/assets/{asset}/revision', [ApprovalController::class, 'revision'])->name('assets.revision');
 });
