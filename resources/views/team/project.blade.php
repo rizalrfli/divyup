@@ -5,7 +5,7 @@
 @section('subheading', $project->client->name.' · tenggat '.$project->due_date->format('d M Y'))
 
 @section('nav')
-    <a class="rail-link" href="{{ route('tim.dashboard') }}" aria-current="page">Tugas Saya</a>
+    @include('partials.nav-tim')
 @endsection
 
 @section('content')

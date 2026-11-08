@@ -5,8 +5,7 @@
 @section('subheading', 'Seluruh proyek klien beserta tahap berjalan.')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('admin.dashboard') }}">Dasbor</a>
-    <a class="rail-link" href="{{ route('admin.projects.index') }}" aria-current="page">Proyek</a>
+    @include('partials.nav-admin')
 @endsection
 
 @section('actions')

@@ -5,7 +5,7 @@
 @section('subheading', 'Progres layanan digital marketing Anda.')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('portal.dashboard') }}" aria-current="page">Proyek Saya</a>
+    @include('partials.nav-klien')
 @endsection
 
 @section('content')

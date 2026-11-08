@@ -5,10 +5,7 @@
 @section('subheading', 'Daftar proyek yang tenggatnya jatuh pada bulan terpilih.')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('admin.dashboard') }}">Dasbor</a>
-    <a class="rail-link" href="{{ route('admin.projects.index') }}">Proyek</a>
-    <a class="rail-link" href="{{ route('admin.users') }}">Pengguna</a>
-    <a class="rail-link" href="{{ route('admin.report') }}" aria-current="page">Rekap</a>
+    @include('partials.nav-admin')
 @endsection
 
 @section('content')

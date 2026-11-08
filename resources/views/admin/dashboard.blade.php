@@ -5,10 +5,7 @@
 @section('subheading', 'Ringkasan seluruh proyek klien.')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('admin.dashboard') }}" aria-current="page">Dasbor</a>
-    <a class="rail-link" href="{{ route('admin.projects.index') }}">Proyek</a>
-    <a class="rail-link" href="{{ route('admin.users') }}">Pengguna</a>
-    <a class="rail-link" href="{{ route('admin.report') }}">Rekap</a>
+    @include('partials.nav-admin')
 @endsection
 
 @section('actions')
@@ -17,13 +14,16 @@
 
 @section('content')
     <section class="stat-row" aria-label="Ringkasan angka">
-        @foreach ($stats as $label => $value)
+        @foreach ($stats as $stat)
             <div class="stat">
-                <p class="stat-label">{{ $label }}</p>
-                <p class="stat-value">{{ $value }}</p>
+                <p class="stat-label">{{ $stat['label'] }}</p>
+                <p class="stat-value">{{ $stat['value'] }}</p>
+                <p class="stat-note">{{ $stat['note'] }}</p>
             </div>
         @endforeach
     </section>
+
+    @include('partials.charts', ['pie' => $pie, 'bars' => $bars])
 
     <div class="panel">
         <h2 class="panel-title">Seluruh proyek</h2>

@@ -5,7 +5,7 @@
 @section('subheading', 'Proyek yang ditugaskan kepada Anda, urut tenggat.')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('tim.dashboard') }}" aria-current="page">Tugas Saya</a>
+    @include('partials.nav-tim')
 @endsection
 
 @section('content')

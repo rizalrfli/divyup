@@ -43,6 +43,55 @@ class DashboardAndUsersTest extends TestCase
             ->assertSeeTextInOrder(['Total klien', '2']);
     }
 
+    public function test_dashboard_pie_reflects_asset_status_distribution(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+        $project = Project::factory()->create();
+
+        foreach ([AssetStatus::Menunggu, AssetStatus::Menunggu, AssetStatus::Disetujui] as $status) {
+            Asset::create([
+                'project_id' => $project->id,
+                'uploaded_by' => $project->team_id,
+                'name' => 'aset.png',
+                'path' => 'assets/1/aset.png',
+                'type' => 'image/png',
+                'size_bytes' => 1000,
+                'status' => $status,
+            ]);
+        }
+
+        $this->actingAs($admin)->get('/admin')
+            ->assertOk()
+            ->assertSee('Distribusi status aset')
+            ->assertSee('67%')
+            ->assertSee('33%');
+    }
+
+    public function test_dashboard_bar_shows_asset_count_per_month(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+        $project = Project::factory()->create();
+
+        foreach (['2026-01-10', '2026-01-20', '2026-02-05'] as $date) {
+            $asset = Asset::create([
+                'project_id' => $project->id,
+                'uploaded_by' => $project->team_id,
+                'name' => 'aset.png',
+                'path' => 'assets/1/aset.png',
+                'type' => 'image/png',
+                'size_bytes' => 1000,
+            ]);
+            $asset->forceFill(['created_at' => $date])->save();
+        }
+
+        $this->actingAs($admin)->get('/admin')
+            ->assertOk()
+            ->assertSee('Aset masuk per bulan')
+            ->assertSee('Jan 2026')
+            ->assertSee('Feb 2026')
+            ->assertSee('2 aset');
+    }
+
     public function test_report_streams_csv_with_header_row(): void
     {
         $admin = User::factory()->create(['role' => Role::Admin->value]);

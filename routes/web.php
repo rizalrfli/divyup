@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AssetDownloadController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Client\ApprovalController;
 use App\Http\Controllers\Client\PortalController;
 use App\Http\Controllers\Team;
@@ -29,6 +30,12 @@ Route::get('/assets/{asset}/download', AssetDownloadController::class)
     ->middleware('auth')
     ->name('assets.download');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markRead'])
+        ->name('notifications.read');
+});
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/projects', [Admin\ProjectController::class, 'index'])->name('projects.index');
@@ -44,6 +51,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/laporan', [Admin\ReportController::class, 'index'])->name('report');
     Route::get('/laporan/unduh', [Admin\ReportController::class, 'download'])->name('report.download');
+    Route::get('/log', [Admin\ActivityLogController::class, 'index'])->name('log');
 });
 
 Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(function () {

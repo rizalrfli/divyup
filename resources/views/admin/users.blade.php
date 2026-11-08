@@ -5,10 +5,7 @@
 @section('subheading', 'Akun tim operasional dan klien. Akun tidak dihapus, hanya dinonaktifkan.')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('admin.dashboard') }}">Dasbor</a>
-    <a class="rail-link" href="{{ route('admin.projects.index') }}">Proyek</a>
-    <a class="rail-link" href="{{ route('admin.users') }}" aria-current="page">Pengguna</a>
-    <a class="rail-link" href="{{ route('admin.report') }}">Rekap</a>
+    @include('partials.nav-admin')
 @endsection
 
 @section('content')

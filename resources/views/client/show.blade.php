@@ -5,7 +5,7 @@
 @section('subheading', 'Progres layanan '.$project->progress().'% · target '.$project->due_date->format('d M Y'))
 
 @section('nav')
-    <a class="rail-link" href="{{ route('portal.dashboard') }}" aria-current="page">Proyek Saya</a>
+    @include('partials.nav-klien')
 @endsection
 
 @section('content')
@@ -24,8 +24,10 @@
                 @foreach ($project->assets as $asset)
                     <li class="asset-card">
                         <div class="asset-preview">
-                            @if ($asset->isImage())
+                            @if ($asset->isImage() && \Illuminate\Support\Facades\Storage::disk('public')->exists($asset->path))
                                 <img src="{{ asset('storage/'.$asset->path) }}" alt="{{ $asset->name }}" loading="lazy">
+                            @elseif ($asset->isImage())
+                                <span class="file-ext">PNG</span>
                             @else
                                 <span class="file-ext">{{ strtoupper(pathinfo($asset->name, PATHINFO_EXTENSION)) }}</span>
                             @endif

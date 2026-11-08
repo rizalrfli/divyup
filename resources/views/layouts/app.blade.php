@@ -16,39 +16,53 @@
         <aside class="rail">
             <div class="rail-top">
                 <span class="wordmark">DIVYUP</span>
-                <p class="rail-role">{{ auth()->user()->role->label() }}</p>
+                <span class="wordmark-sub">e-Reporting</span>
             </div>
 
             <nav class="rail-nav" aria-label="Menu utama">
                 @yield('nav')
             </nav>
 
-            <div class="rail-foot">
-                <p class="rail-user">{{ auth()->user()->name }}</p>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-ghost btn-sm">Keluar</button>
-                </form>
-            </div>
+            <p class="rail-foot-note">Agensi DivyUp<br>PT PMI</p>
         </aside>
 
-        <main class="app-main" id="konten">
-            <header class="page-head">
-                <div>
-                    <h1 class="page-title">@yield('heading', 'Dasbor')</h1>
-                    @hasSection('subheading')
-                        <p class="page-sub">@yield('subheading')</p>
-                    @endif
+        <div class="app-col">
+            <header class="topbar">
+                <p class="topbar-role">{{ auth()->user()->role->label() }}</p>
+
+                <div class="topbar-right">
+                    @include('partials.bell')
+
+                    <div class="topbar-user">
+                        <span class="topbar-name">{{ auth()->user()->name }}</span>
+                        <span class="topbar-mail">{{ auth()->user()->email }}</span>
+                    </div>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-ghost btn-sm">Keluar</button>
+                    </form>
                 </div>
-                @yield('actions')
             </header>
 
-            @if (session('status'))
-                <div class="flash" role="status">{{ session('status') }}</div>
-            @endif
+            <main class="app-main" id="konten">
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">@yield('heading', 'Dasbor')</h1>
+                        @hasSection('subheading')
+                            <p class="page-sub">@yield('subheading')</p>
+                        @endif
+                    </div>
+                    @yield('actions')
+                </header>
 
-            @yield('content')
-        </main>
+                @if (session('status'))
+                    <div class="flash" role="status">{{ session('status') }}</div>
+                @endif
+
+                @yield('content')
+            </main>
+        </div>
     </div>
 </body>
 </html>

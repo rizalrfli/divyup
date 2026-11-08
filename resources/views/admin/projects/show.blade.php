@@ -5,7 +5,7 @@
 @section('subheading', $project->client->name.' · '.$project->progress().'% selesai')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('admin.dashboard') }}">Dasbor</a>
+    @include('partials.nav-admin')
 @endsection
 
 @section('content')

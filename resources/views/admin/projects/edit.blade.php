@@ -4,8 +4,7 @@
 @section('heading', 'Ubah proyek')
 
 @section('nav')
-    <a class="rail-link" href="{{ route('admin.dashboard') }}">Dasbor</a>
-    <a class="rail-link" href="{{ route('admin.projects.index') }}" aria-current="page">Proyek</a>
+    @include('partials.nav-admin')
 @endsection
 
 @section('content')
