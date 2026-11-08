@@ -1,58 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# DivyUp e-Reporting
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem informasi progres layanan digital marketing Agensi DivyUp, unit usaha PT PMI. Dibangun dengan Laravel 13, MySQL, Blade, dan CSS sendiri (tanpa npm atau build step).
 
-## About Laravel
+## Menjalankan di mesin lokal
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```powershell
+# 1. Nyalakan MySQL Laragon
+Start-Process "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysqld.exe" `
+  -ArgumentList '--defaults-file=C:\laragon\bin\mysql\mysql-8.4.3-winx64\my.ini'
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# 2. Siapkan database dan data contoh
+cd C:\Users\rizal\Documents\PR_Kakmel\divyup
+php artisan migrate:fresh --seed
+php artisan storage:link
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+# 3. Jalankan
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Buka `http://127.0.0.1:8000`.
 
-## Contributing
+## Akun contoh
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Semua akun memakai password `password`.
 
-## Code of Conduct
+| Peran | Email |
+|---|---|
+| Pimpinan (admin) | `melany@divyup.test` |
+| Tim operasional | `dedy@divyup.test`, `luthfi@divyup.test`, `nimas@divyup.test`, `jamiatul@divyup.test` |
+| Klien | `kafe@divyup.test`, `brandx@divyup.test` |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Alur singkat
 
-## Security Vulnerabilities
+1. Admin membuat proyek dan menugaskan anggota tim. Sistem otomatis membuat lima tahap: Briefing, Pengerjaan Desain, Menunggu Review, Revisi, Siap Publikasi.
+2. Tim memperbarui status tahap dan mengunggah aset kreatif (PNG, JPG, PDF, MP4, maksimal 50 MB).
+3. Klien membuka portal, melihat timeline dan galeri, lalu menyetujui aset atau meminta revisi dengan catatan wajib.
+4. Setiap perubahan tahap tercatat di log aktivitas dan mengirim notifikasi di dalam aplikasi.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Pengujian
 
-## License
+```powershell
+php artisan test
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Test berjalan di SQLite in-memory, jadi tidak menyentuh database MySQL. Cakupan mengikuti 18 skenario blackbox pada Bab IV skripsi, ditambah kasus tepi: unggahan melebihi 50 MB, akses lintas klien, akun yang dinonaktifkan saat masih login, dan persetujuan ganda.
+
+## Catatan teknis
+
+- Tahap proyek diturunkan dari tabel `tasks`, bukan kolom terpisah, supaya tidak ada dua sumber kebenaran.
+- Batas unggah dijaga di sisi aplikasi (`max:51200` KB). `upload_max_filesize` PHP di mesin ini sudah 2G, jadi batas 50 MB yang berlaku adalah batas aplikasi.
+- File aset disimpan di `storage/app/public/assets/{project_id}` dan diakses lewat symlink `public/storage`.
