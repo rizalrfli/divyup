@@ -37,6 +37,19 @@ Semua akun memakai password `password`.
 | Tim operasional | `dedy@divyup.test`, `luthfi@divyup.test`, `nimas@divyup.test`, `jamiatul@divyup.test` |
 | Klien | `kafe@divyup.test`, `brandx@divyup.test` |
 
+## Data contoh
+
+Empat proyek supaya setiap keadaan punya wakil:
+
+| Proyek | Klien | Tim | Keadaan |
+|---|---|---|---|
+| Social Media Management - Februari 2026 | Kafe Nusantara | Dedy | Berjalan, 3 aset menunggu persetujuan |
+| Kampanye Ramadan 2026 | Kafe Nusantara | Luthfi | Selesai 100%, aset sudah disetujui |
+| Social Media Management - Maret 2026 | Brand X | Nimas | Review, 1 disetujui dan 2 menunggu |
+| Peluncuran Produk - April 2026 | Brand X | Dedy | Revisi terbuka dengan catatan klien |
+
+Total 20 tahap dan 10 aset, tersebar Januari sampai April 2026, jadi grafik batang dan donat di dasbor punya data nyata untuk dibaca.
+
 ## Alur singkat
 
 1. Admin membuat proyek dan menugaskan anggota tim. Sistem otomatis membuat lima tahap: Briefing, Pengerjaan Desain, Menunggu Review, Revisi, Siap Publikasi.
