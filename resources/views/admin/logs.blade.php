@@ -26,11 +26,11 @@
                 <tbody>
                     @foreach ($logs as $log)
                         <tr>
-                            <td class="nowrap">{{ $log->created_at->format('d M Y H:i') }}</td>
-                            <td>{{ $log->project?->name ?? '-' }}</td>
-                            <td>{{ $log->actor?->name ?? 'Sistem' }}</td>
-                            <td>{{ $log->action === 'stage.updated' ? 'Perubahan tahap' : $log->action }}</td>
-                            <td>{{ $log->detail ?? '-' }}</td>
+                            <td data-label="Waktu" class="nowrap">{{ $log->created_at->format('d M Y H:i') }}</td>
+                            <td data-label="Proyek" class="cell-title">{{ $log->project?->name ?? '-' }}</td>
+                            <td data-label="Pelaku">{{ $log->actor?->name ?? 'Sistem' }}</td>
+                            <td data-label="Aktivitas">{{ $log->action === 'stage.updated' ? 'Perubahan tahap' : $log->action }}</td>
+                            <td data-label="Keterangan">{{ $log->detail ?? '-' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

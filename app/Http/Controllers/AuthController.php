@@ -34,7 +34,15 @@ class AuthController
 
         $request->session()->regenerate();
 
-        return redirect()->intended($this->redirectFor(Auth::user()));
+        $user = Auth::user();
+        $home = $this->redirectFor($user);
+        $intended = $request->session()->pull('url.intended');
+        $path = $intended ? (parse_url($intended, PHP_URL_PATH) ?? '') : '';
+
+        // Tujuan lama hanya dipakai bila masih di area peran ini, supaya
+        // sesi sebelumnya tidak membuang pengguna ke halaman 403. Yang
+        // dipakai hanya path-nya, jadi host luar tidak ikut dialihkan.
+        return redirect($path !== '' && str_starts_with($path, $home) ? $path : $home);
     }
 
     public function destroy(Request $request): RedirectResponse

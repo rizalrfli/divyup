@@ -19,6 +19,14 @@
                 <span class="wordmark-sub">e-Reporting</span>
             </div>
 
+            {{-- Di layar kecil nav dibuka lewat tombol ini; di desktop tombolnya
+                 disembunyikan dan nav selalu tampil. --}}
+            <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Buka menu">
+            <label for="nav-toggle" class="nav-burger">
+                <span class="nav-burger-lines" aria-hidden="true"></span>
+                <span class="sr-only">Menu</span>
+            </label>
+
             <nav class="rail-nav" aria-label="Menu utama">
                 @yield('nav')
             </nav>

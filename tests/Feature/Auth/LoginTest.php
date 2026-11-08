@@ -76,6 +76,25 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_stale_intended_url_from_another_role_is_ignored(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+
+        // Sesi sebelumnya menyimpan /tim sebagai tujuan; admin tidak boleh dibuang ke sana.
+        $this->withSession(['url.intended' => 'http://localhost/tim'])
+            ->post('/login', ['email' => $admin->email, 'password' => 'password'])
+            ->assertRedirect('/admin');
+    }
+
+    public function test_intended_url_inside_own_area_is_kept(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+
+        $this->withSession(['url.intended' => 'http://localhost/admin/projects'])
+            ->post('/login', ['email' => $admin->email, 'password' => 'password'])
+            ->assertRedirect('/admin/projects');
+    }
+
     public function test_logout_invalidates_session(): void
     {
         $user = User::factory()->create(['role' => Role::Tim->value]);

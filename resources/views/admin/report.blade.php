@@ -44,12 +44,12 @@
                 <tbody>
                     @foreach ($projects as $project)
                         <tr>
-                            <td>{{ $project->name }}</td>
-                            <td>{{ $project->client->name }}</td>
-                            <td>{{ $project->team?->name ?? '-' }}</td>
-                            <td>{{ $project->stageLabel() }}</td>
-                            <td class="nowrap">{{ $project->progress() }}%</td>
-                            <td class="nowrap">{{ $project->due_date->format('d M Y') }}</td>
+                            <td data-label="Proyek" class="cell-title">{{ $project->name }}</td>
+                            <td data-label="Klien">{{ $project->client->name }}</td>
+                            <td data-label="Tim">{{ $project->team?->name ?? '-' }}</td>
+                            <td data-label="Tahap">{{ $project->stageLabel() }}</td>
+                            <td data-label="Progres" class="nowrap">{{ $project->progress() }}%</td>
+                            <td data-label="Tenggat" class="nowrap">{{ $project->due_date->format('d M Y') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

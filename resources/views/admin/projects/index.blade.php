@@ -34,15 +34,15 @@
                 <tbody>
                     @foreach ($projects as $project)
                         <tr>
-                            <td>
+                            <td data-label="Proyek" class="cell-title">
                                 <a href="{{ route('admin.projects.show', $project) }}">{{ $project->name }}</a>
                             </td>
-                            <td>{{ $project->client->name }}</td>
-                            <td>{{ $project->team?->name ?? 'Belum ditugaskan' }}</td>
-                            <td>{{ $project->stageLabel() }}</td>
-                            <td class="nowrap">{{ $project->due_date->format('d M Y') }}</td>
-                            <td class="nowrap">{{ $project->progress() }}%</td>
-                            <td class="nowrap">
+                            <td data-label="Klien">{{ $project->client->name }}</td>
+                            <td data-label="Tim">{{ $project->team?->name ?? 'Belum ditugaskan' }}</td>
+                            <td data-label="Tahap">{{ $project->stageLabel() }}</td>
+                            <td data-label="Tenggat" class="nowrap">{{ $project->due_date->format('d M Y') }}</td>
+                            <td data-label="Progres" class="nowrap">{{ $project->progress() }}%</td>
+                            <td class="cell-action">
                                 <a class="btn btn-ghost btn-sm" href="{{ route('admin.projects.edit', $project) }}">Ubah</a>
                             </td>
                         </tr>

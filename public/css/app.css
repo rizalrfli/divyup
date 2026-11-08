@@ -251,6 +251,10 @@ a { color: var(--teal-dark); }
 
 .rail-nav { display: grid; gap: 1px; }
 
+/* Tombol menu hanya untuk layar kecil. */
+.nav-toggle,
+.nav-burger { display: none; }
+
 .rail-label {
     margin: 14px 8px 6px;
     font-size: 10.5px;
@@ -1062,29 +1066,82 @@ a { color: var(--teal-dark); }
 }
 
 @media (max-width: 900px) {
-    .app-shell { grid-template-columns: minmax(0, 1fr); }
+    .app-shell {
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+    }
 
     .rail {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        gap: 10px;
+        gap: 8px 10px;
         padding: 10px 14px;
         border-right: 0;
         border-bottom: 1px solid var(--line);
     }
 
-    .rail-top { flex: 0 0 auto; padding: 0; }
+    .rail-top { flex: 1 1 auto; padding: 0; }
     .wordmark-sub { display: none; }
-    .rail-nav {
-        grid-auto-flow: column;
-        gap: 2px;
-        align-items: center;
-        overflow-x: auto;
-        max-width: 100%;
-        scrollbar-width: none;
+
+    /* Tombol hamburger: kotak 44px, garis tiga digambar dengan CSS. */
+    .nav-burger {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        margin-left: auto;
+        border: 1px solid var(--line-strong);
+        border-radius: var(--radius);
+        background: var(--surface);
+        cursor: pointer;
     }
-    .rail-nav::-webkit-scrollbar { display: none; }
+
+    .nav-burger-lines,
+    .nav-burger-lines::before,
+    .nav-burger-lines::after {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--ink);
+        border-radius: 2px;
+    }
+
+    .nav-burger-lines { position: relative; }
+
+    .nav-burger-lines::before,
+    .nav-burger-lines::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+
+    .nav-burger-lines::before { top: -6px; }
+    .nav-burger-lines::after { top: 6px; }
+
+    /* Fokus keyboard terlihat pada tombol, bukan pada input tersembunyi. */
+    .nav-toggle:focus-visible + .nav-burger {
+        outline: 2px solid var(--teal);
+        outline-offset: 2px;
+    }
+
+    /* Nav tersembunyi sampai tombol ditekan. */
+    .rail-nav { display: none; }
+    .nav-toggle:checked ~ .rail-nav {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1 0 100%;
+        order: 3;
+        gap: 2px;
+        margin: 0 -4px;
+        padding-top: 4px;
+        border-top: 1px solid var(--line-soft);
+    }
+
+    .nav-toggle:checked + .nav-burger {
+        background: var(--teal-soft);
+        border-color: var(--teal-line);
+    }
     .rail-label, .rail-foot-note, .rail-note { display: none; }
     .rail-link {
         padding: 8px 10px;
@@ -1111,15 +1168,65 @@ a { color: var(--teal-dark); }
     .asset-side { justify-content: flex-start; }
     .notif-item { flex-direction: column; }
     .notif-actions { justify-content: flex-start; }
-    .table th, .table td { padding: 10px 12px; }
     .auth-card { padding: 22px 18px; }
     .auth-title { font-size: 23px; }
 
-    /* Tabel lebar bergulir di dalam panelnya, bukan menyeret halaman. */
-    .panel { overflow-x: auto; }
-    .table { min-width: 520px; }
-    .panel .timeline, .panel .bars, .panel .pie-wrap, .panel .card-grid,
-    .panel .asset-grid, .panel .notif-list, .panel .asset-list { min-width: 0; }
+    /* Tabel jadi kartu bertumpuk; label kolom dibawa tiap sel. */
+    .table,
+    .table thead,
+    .table tbody,
+    .table tr,
+    .table td { display: block; width: 100%; }
+
+    .table thead { display: none; }
+
+    .table tr {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .table tr:last-child { border-bottom: 0; }
+
+    .table td {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 10px;
+        padding: 3px 0;
+        border: 0;
+        font-size: 13.5px;
+        overflow-wrap: anywhere;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        padding-top: 2px;
+    }
+
+    .table td.cell-title {
+        grid-template-columns: minmax(0, 1fr);
+        font-size: 15px;
+        font-weight: 600;
+        padding-bottom: 6px;
+    }
+
+    .table td.cell-title::before { display: none; }
+
+    .table td.cell-action {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 10px;
+    }
+
+    .table td.cell-action::before { display: none; }
+    .table td.cell-action .btn { width: 100%; }
+
+    /* Label status tidak ikut melebar mengisi kolom. */
+    .table td .tag { justify-self: start; }
+
     .bars { height: 150px; gap: 6px; }
     .pie { width: 132px; height: 132px; }
     .pie-hole { width: 82px; height: 82px; }
@@ -1128,4 +1235,10 @@ a { color: var(--teal-dark); }
     .stat { padding: 13px 14px; }
     .stat-value { font-size: 24px; }
     .stat-note { font-size: 11.5px; }
+
+    .page-head { gap: 10px; }
+    .page-head .btn { width: 100%; }
+    .filter-row .field { max-width: none; }
+    .form-actions { width: 100%; }
+    .form-actions .btn { flex: 1 1 auto; }
 }

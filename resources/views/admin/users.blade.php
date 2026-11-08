@@ -29,15 +29,15 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role->label() }}</td>
-                        <td>
+                        <td data-label="Nama" class="cell-title">{{ $user->name }}</td>
+                        <td data-label="Email">{{ $user->email }}</td>
+                        <td data-label="Peran">{{ $user->role->label() }}</td>
+                        <td data-label="Status">
                             <span class="tag {{ $user->is_active ? '' : 'tag-warn' }}">
                                 {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}
                             </span>
                         </td>
-                        <td class="nowrap">
+                        <td class="cell-action">
                             @if ($user->id !== auth()->id())
                                 <form method="POST" action="{{ route('admin.users.status', $user) }}">
                                     @csrf
