@@ -30,13 +30,20 @@ Route::get('/assets/{asset}/download', AssetDownloadController::class)
     ->name('assets.download');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('/', 'admin.dashboard')->name('dashboard');
+    Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/projects', [Admin\ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/create', [Admin\ProjectController::class, 'create'])->name('projects.create');
     Route::post('/projects', [Admin\ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project}', [Admin\ProjectController::class, 'show'])->name('projects.show');
     Route::get('/projects/{project}/edit', [Admin\ProjectController::class, 'edit'])->name('projects.edit');
     Route::patch('/projects/{project}', [Admin\ProjectController::class, 'update'])->name('projects.update');
+
+    Route::get('/pengguna', [Admin\UserController::class, 'index'])->name('users');
+    Route::post('/pengguna', [Admin\UserController::class, 'store'])->name('users.store');
+    Route::patch('/pengguna/{user}/status', [Admin\UserController::class, 'updateStatus'])->name('users.status');
+
+    Route::get('/laporan', [Admin\ReportController::class, 'index'])->name('report');
+    Route::get('/laporan/unduh', [Admin\ReportController::class, 'download'])->name('report.download');
 });
 
 Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(function () {
