@@ -46,6 +46,8 @@ class StageController
             ]);
 
             $project->client->notify(StageChanged::from($project, $task));
+
+            $project->syncStatus();
         });
 
         return back()->with('status', 'Tahap '.$task->stage->label().' diperbarui.');

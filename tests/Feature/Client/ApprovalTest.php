@@ -20,6 +20,15 @@ class ApprovalTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Driver file, bukan array: pesan galat dikirim lewat flash lintas
+     * request, dan driver array tidak menyimpannya antar request.
+     */
+    protected function defineEnvironment($app): void
+    {
+        $app['config']->set('session.driver', 'file');
+    }
+
     public function test_client_approves_asset(): void
     {
         Notification::fake();
@@ -94,6 +103,60 @@ class ApprovalTest extends TestCase
             ->assertSessionHasErrors('asset');
 
         $this->assertDatabaseCount('approval_logs', 1);
+    }
+
+    public function test_project_is_marked_done_when_last_pending_asset_is_approved(): void
+    {
+        Notification::fake();
+        [$project, $asset] = $this->projectWithPendingAsset(TaskStatus::Selesai);
+
+        foreach ($project->tasks as $task) {
+            $task->update(['status' => TaskStatus::Selesai]);
+        }
+
+        $this->actingAs($project->client)->post("/portal/assets/{$asset->id}/approve");
+
+        $this->assertSame('selesai', $project->fresh()->status);
+        $this->assertSame('Selesai', $project->fresh()->stageLabel());
+    }
+
+    public function test_project_stays_active_while_another_asset_is_pending(): void
+    {
+        Notification::fake();
+        [$project, $asset] = $this->projectWithPendingAsset(TaskStatus::Selesai);
+
+        foreach ($project->tasks as $task) {
+            $task->update(['status' => TaskStatus::Selesai]);
+        }
+
+        Asset::create([
+            'project_id' => $project->id,
+            'uploaded_by' => $project->team_id,
+            'name' => 'feed-02.png',
+            'path' => "assets/{$project->id}/feed-02.png",
+            'type' => 'image/png',
+            'size_bytes' => 2048,
+            'status' => AssetStatus::Menunggu,
+        ]);
+
+        $this->actingAs($project->client)->post("/portal/assets/{$asset->id}/approve");
+
+        $this->assertSame('aktif', $project->fresh()->status);
+    }
+
+    public function test_double_approve_error_is_shown_on_the_portal(): void
+    {
+        Notification::fake();
+        [$project, $asset] = $this->projectWithPendingAsset();
+        $client = $project->client;
+
+        $this->actingAs($client)->post("/portal/assets/{$asset->id}/approve");
+        $this->actingAs($client)->from("/portal/projects/{$project->id}")
+            ->post("/portal/assets/{$asset->id}/approve");
+
+        $this->actingAs($client)->get("/portal/projects/{$project->id}")
+            ->assertOk()
+            ->assertSee('Aset ini sudah diproses sebelumnya');
     }
 
     public function test_other_clients_cannot_approve(): void

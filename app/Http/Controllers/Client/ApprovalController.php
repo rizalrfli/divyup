@@ -73,6 +73,8 @@ class ApprovalController
                 $project->team?->notify(RevisionRequested::from($locked));
             }
 
+            $project->syncStatus();
+
             return true;
         });
 

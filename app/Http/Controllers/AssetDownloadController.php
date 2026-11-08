@@ -15,6 +15,9 @@ class AssetDownloadController
 
         abort_unless(Storage::disk('public')->exists($asset->path), 404, 'Berkas tidak ditemukan di server.');
 
-        return Storage::disk('public')->download($asset->path, $asset->name);
+        // Nama dari data lama bisa memuat "/" dan membuat header unduhan gagal.
+        $filename = str_replace(['/', '\\'], '-', $asset->name);
+
+        return Storage::disk('public')->download($asset->path, $filename);
     }
 }

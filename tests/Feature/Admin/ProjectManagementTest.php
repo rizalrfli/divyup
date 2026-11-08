@@ -68,6 +68,33 @@ class ProjectManagementTest extends TestCase
         $this->actingAs($admin)->get('/admin/projects')->assertOk()->assertSee('SMM April 2026');
     }
 
+    public function test_project_detail_links_to_the_edit_form(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+        $project = Project::factory()->create();
+
+        $this->actingAs($admin)->get("/admin/projects/{$project->id}")
+            ->assertOk()
+            ->assertSee(route('admin.projects.edit', $project));
+    }
+
+    public function test_admin_updates_project_team(): void
+    {
+        $admin = User::factory()->create(['role' => Role::Admin->value]);
+        $project = Project::factory()->create();
+        $newTeam = User::factory()->create(['role' => Role::Tim->value]);
+
+        $this->actingAs($admin)->patch("/admin/projects/{$project->id}", [
+            'name' => $project->name,
+            'client_id' => $project->client_id,
+            'team_id' => $newTeam->id,
+            'start_date' => '2026-02-01',
+            'due_date' => '2026-02-28',
+        ])->assertRedirect("/admin/projects/{$project->id}");
+
+        $this->assertSame($newTeam->id, $project->fresh()->team_id);
+    }
+
     public function test_team_assignment_must_be_a_team_member(): void
     {
         $admin = User::factory()->create(['role' => Role::Admin->value]);

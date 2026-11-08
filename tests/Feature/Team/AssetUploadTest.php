@@ -109,6 +109,41 @@ class AssetUploadTest extends TestCase
         $this->assertDatabaseCount('assets', 0);
     }
 
+    public function test_display_name_with_a_slash_is_rejected(): void
+    {
+        Storage::fake('public');
+        [$project, $team] = $this->projectForTeam();
+
+        $this->actingAs($team)->post("/tim/projects/{$project->id}/assets", [
+            'file' => UploadedFile::fake()->image('feed.png')->size(200),
+            'name' => 'Feed 01/02',
+        ])->assertSessionHasErrors('name');
+
+        $this->assertDatabaseCount('assets', 0);
+    }
+
+    public function test_legacy_asset_name_with_a_slash_still_downloads(): void
+    {
+        Storage::fake('public');
+        [$project] = $this->projectForTeam();
+        $path = "assets/{$project->id}/lama.png";
+        Storage::disk('public')->put($path, 'isi');
+
+        $asset = Asset::create([
+            'project_id' => $project->id,
+            'uploaded_by' => $project->team_id,
+            'name' => 'Feed 01/02.png',
+            'path' => $path,
+            'type' => 'image/png',
+            'size_bytes' => 3,
+        ]);
+
+        $this->actingAs($project->client)
+            ->get("/assets/{$asset->id}/download")
+            ->assertOk()
+            ->assertDownload('Feed 01-02.png');
+    }
+
     /** @return array{0: Project, 1: User} */
     private function projectForTeam(): array
     {

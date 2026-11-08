@@ -8,6 +8,10 @@
     @include('partials.nav-admin')
 @endsection
 
+@section('actions')
+    <a class="btn btn-ghost" href="{{ route('admin.projects.edit', $project) }}">Ubah proyek</a>
+@endsection
+
 @section('content')
     <div class="panel">
         <h2 class="panel-title">Tahapan produksi</h2>

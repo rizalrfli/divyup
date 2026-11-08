@@ -20,12 +20,13 @@ class AssetController
 
         $request->validate([
             'file' => ['required', 'file', 'mimes:png,jpg,jpeg,pdf,mp4', 'max:51200'],
-            'name' => ['nullable', 'string', 'max:120'],
+            'name' => ['nullable', 'string', 'max:120', 'regex:/^[^\\\\\\/]+$/'],
         ], [
             'file.required' => 'Pilih berkas yang akan diunggah',
             'file.max' => 'Ukuran file melebihi batas maksimum 50 MB',
             'file.mimes' => 'Format file harus PNG, JPG, PDF, atau MP4',
             'file.file' => 'Berkas tidak terbaca, coba unggah ulang',
+            'name.regex' => 'Nama tampilan tidak boleh memuat garis miring',
         ]);
 
         $file = $request->file('file');
@@ -46,6 +47,8 @@ class AssetController
             if ($project->client) {
                 $project->client->notify(AssetUploaded::from($asset));
             }
+
+            $project->syncStatus();
         });
 
         return back()->with('status', 'Aset berhasil diunggah dan menunggu persetujuan klien.');
@@ -87,6 +90,8 @@ class AssetController
             }
 
             $project->client->notify(AssetUploaded::from($asset));
+
+            $project->syncStatus();
         });
 
         return back()->with('status', 'Aset revisi diunggah ulang dan menunggu persetujuan.');

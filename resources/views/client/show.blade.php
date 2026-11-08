@@ -9,6 +9,10 @@
 @endsection
 
 @section('content')
+    @error('asset')
+        <div class="flash flash-error" role="alert">{{ $message }}</div>
+    @enderror
+
     <div class="panel">
         <h2 class="panel-title">Tahapan produksi</h2>
         @include('partials.timeline', ['tasks' => $project->tasks])

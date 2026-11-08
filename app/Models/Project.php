@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AssetStatus;
 use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -64,5 +65,35 @@ class Project extends Model
         return $this->tasks->first(
             fn (Task $task) => ! in_array($task->status, [TaskStatus::Selesai, TaskStatus::Dilewati], true)
         ) ?? $this->tasks->last();
+    }
+
+    /** Label tahap untuk tabel; proyek yang sudah selesai tidak menampilkan tahap. */
+    public function stageLabel(): string
+    {
+        if ($this->status === 'selesai') {
+            return 'Selesai';
+        }
+
+        return $this->currentTask()?->stage->label() ?? 'Belum ada tahap';
+    }
+
+    /**
+     * Proyek selesai hanya bila semua tahap tuntas dan tidak ada aset yang
+     * masih menunggu persetujuan atau revisi. Dipanggil setiap kali salah
+     * satu dari keadaan itu berubah.
+     */
+    public function syncStatus(): void
+    {
+        $allTasksDone = $this->tasks()->whereNotIn('status', [
+            TaskStatus::Selesai->value,
+            TaskStatus::Dilewati->value,
+        ])->doesntExist();
+
+        $openAssets = $this->assets()->whereIn('status', [
+            AssetStatus::Menunggu->value,
+            AssetStatus::Revisi->value,
+        ])->exists();
+
+        $this->update(['status' => $allTasksDone && ! $openAssets ? 'selesai' : 'aktif']);
     }
 }

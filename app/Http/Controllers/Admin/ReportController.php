@@ -34,7 +34,7 @@ class ReportController
                     $project->name,
                     $project->client->name,
                     $project->team?->name ?? '-',
-                    $project->currentTask()?->stage->label() ?? '-',
+                    $project->stageLabel(),
                     $project->progress().'%',
                     $project->due_date->format('Y-m-d'),
                 ]);

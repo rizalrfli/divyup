@@ -47,7 +47,7 @@
                             <td>{{ $project->name }}</td>
                             <td>{{ $project->client->name }}</td>
                             <td>{{ $project->team?->name ?? '-' }}</td>
-                            <td>{{ $project->currentTask()?->stage->label() ?? '-' }}</td>
+                            <td>{{ $project->stageLabel() }}</td>
                             <td class="nowrap">{{ $project->progress() }}%</td>
                             <td class="nowrap">{{ $project->due_date->format('d M Y') }}</td>
                         </tr>

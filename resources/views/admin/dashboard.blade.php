@@ -48,7 +48,7 @@
                             <td><a href="{{ route('admin.projects.show', $project) }}">{{ $project->name }}</a></td>
                             <td>{{ $project->client->name }}</td>
                             <td>{{ $project->team?->name ?? 'Belum ditugaskan' }}</td>
-                            <td>{{ $project->currentTask()?->stage->label() ?? 'Belum ada tahap' }}</td>
+                            <td>{{ $project->stageLabel() }}</td>
                             <td class="nowrap">{{ $project->due_date->format('d M Y') }}</td>
                             <td class="nowrap">{{ $project->progress() }}%</td>
                         </tr>

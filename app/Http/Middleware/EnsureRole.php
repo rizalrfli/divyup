@@ -9,14 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureRole
 {
     /**
-     * Batasi akses ke peran tertentu. Akun nonaktif selalu ditolak,
-     * termasuk sesi yang dibuat sebelum akun dinonaktifkan.
+     * Batasi akses ke peran tertentu. Status akun diperiksa EnsureActive,
+     * bukan di sini, supaya aturannya hanya ada di satu tempat.
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         $user = $request->user();
 
-        if (! $user || ! $user->is_active || ! in_array($user->role->value, $roles, true)) {
+        if (! $user || ! in_array($user->role->value, $roles, true)) {
             abort(403);
         }
 

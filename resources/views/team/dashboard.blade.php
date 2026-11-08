@@ -27,7 +27,7 @@
                     <dl class="meta-list">
                         <div>
                             <dt>Tahap</dt>
-                            <dd>{{ $project->currentTask()?->stage->label() ?? 'Belum ada tahap' }}</dd>
+                            <dd>{{ $project->stageLabel() }}</dd>
                         </div>
                         <div>
                             <dt>Tenggat</dt>
