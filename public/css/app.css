@@ -182,3 +182,223 @@ a { color: var(--teal-dark); }
     .auth-card { padding: 22px 18px; }
     .auth-title { font-size: 23px; }
 }
+
+/* ---------- Kerangka aplikasi ---------- */
+
+.app-body { background: var(--canvas); }
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 8px;
+    padding: 8px 12px;
+    background: var(--teal);
+    color: #fff;
+    z-index: 10;
+}
+
+.skip-link:focus { left: 8px; }
+
+.app-shell {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+.rail {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 22px 16px;
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+}
+
+.rail-top .wordmark { display: block; }
+
+.rail-role {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--ink-muted);
+}
+
+.rail-nav { display: grid; gap: 2px; }
+
+.rail-link {
+    display: block;
+    padding: 9px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: var(--radius);
+}
+
+.rail-link:hover { background: var(--canvas); }
+
+.rail-link[aria-current="page"] {
+    background: var(--teal-soft);
+    color: var(--teal-dark);
+    font-weight: 600;
+}
+
+.rail-foot {
+    margin-top: auto;
+    display: grid;
+    gap: 8px;
+}
+
+.rail-user {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-muted);
+    overflow-wrap: anywhere;
+}
+
+.app-main {
+    min-width: 0;
+    padding: 28px 28px 48px;
+}
+
+.page-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.page-title {
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.page-sub {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--ink-muted);
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.panel-title {
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.empty {
+    margin: 0;
+    padding: 18px 4px;
+    font-size: 14px;
+    color: var(--ink-muted);
+}
+
+.muted { color: var(--ink-muted); }
+
+.flash {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--teal-dark);
+    background: var(--teal-soft);
+    border: 1px solid #BCDCDA;
+    border-radius: var(--radius);
+}
+
+/* ---------- Timeline tahapan ---------- */
+
+.timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+}
+
+.timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 12px;
+    padding-bottom: 16px;
+}
+
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-marker {
+    width: 10px;
+    height: 10px;
+    margin-top: 6px;
+    border-radius: 50%;
+    border: 2px solid var(--line-strong);
+    background: var(--surface);
+}
+
+.timeline-item:not(:last-child) .timeline-marker::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    bottom: 0;
+    width: 2px;
+    background: var(--line);
+}
+
+.timeline-item.is-done .timeline-marker { border-color: var(--teal); background: var(--teal); }
+.timeline-item.is-active .timeline-marker { border-color: var(--orange); background: var(--orange-soft); }
+.timeline-item.is-skipped .timeline-marker { border-color: var(--line-strong); background: var(--line); }
+
+.timeline-stage {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.timeline-item.is-todo .timeline-stage { color: var(--ink-muted); font-weight: 500; }
+
+.timeline-state {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--ink-muted);
+}
+
+.timeline-item.is-active .timeline-state { color: #A33F0C; font-weight: 600; }
+
+.timeline-note {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--ink-muted);
+}
+
+@media (max-width: 900px) {
+    .app-shell { grid-template-columns: minmax(0, 1fr); }
+
+    .rail {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 12px 16px;
+        overflow-x: auto;
+    }
+
+    .rail-top { flex: 0 0 auto; }
+    .rail-role { display: none; }
+    .rail-nav { grid-auto-flow: column; gap: 4px; }
+    .rail-foot { margin: 0 0 0 auto; grid-auto-flow: column; align-items: center; }
+    .rail-user { display: none; }
+
+    .app-main { padding: 20px 16px 40px; }
+    .page-title { font-size: 19px; }
+}
+
+

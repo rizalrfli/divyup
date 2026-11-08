@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\PortalController;
+use App\Http\Controllers\Team;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,13 +24,16 @@ Route::post('/logout', [AuthController::class, 'destroy'])
     ->name('logout');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', fn () => 'admin')->name('dashboard');
+    Route::view('/', 'admin.dashboard')->name('dashboard');
+    Route::get('/projects/{project}', [Admin\ProjectController::class, 'show'])->name('projects.show');
 });
 
 Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(function () {
-    Route::get('/', fn () => 'tim')->name('dashboard');
+    Route::view('/', 'team.dashboard')->name('dashboard');
+    Route::get('/projects/{project}', [Team\ProjectController::class, 'show'])->name('projects.show');
 });
 
 Route::middleware(['auth', 'role:klien'])->prefix('portal')->name('portal.')->group(function () {
-    Route::get('/', fn () => 'portal')->name('dashboard');
+    Route::view('/', 'client.index')->name('dashboard');
+    Route::get('/projects/{project}', [PortalController::class, 'show'])->name('projects.show');
 });
