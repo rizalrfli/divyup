@@ -34,8 +34,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(function () {
-    Route::view('/', 'team.dashboard')->name('dashboard');
+    Route::get('/', [Team\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/projects/{project}', [Team\ProjectController::class, 'show'])->name('projects.show');
+    Route::patch('/projects/{project}/stages/{stage}', [Team\StageController::class, 'update'])
+        ->name('projects.stages.update');
 });
 
 Route::middleware(['auth', 'role:klien'])->prefix('portal')->name('portal.')->group(function () {

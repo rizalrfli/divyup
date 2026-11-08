@@ -326,6 +326,100 @@ a { color: var(--teal-dark); }
 
 .nowrap { white-space: nowrap; }
 
+/* ---------- Kartu & label ---------- */
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+}
+
+.card-kicker {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.card-title {
+    margin: 6px 0 12px;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.card-title a { color: var(--ink); text-decoration: none; }
+.card-title a:hover { color: var(--teal-dark); text-decoration: underline; }
+
+.meta-list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    font-size: 13px;
+}
+
+.meta-list div { display: flex; justify-content: space-between; gap: 12px; }
+
+.meta-list dt { color: var(--ink-muted); }
+.meta-list dd { margin: 0; text-align: right; font-weight: 500; }
+
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 3px;
+    background: var(--teal-soft);
+    color: var(--teal-dark);
+}
+
+.tag-warn { background: var(--orange-soft); color: #A33F0C; }
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Baris tahap (tim) ---------- */
+
+.stage-list { display: grid; gap: 10px; }
+
+.stage-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 1.2fr) minmax(150px, 1fr) minmax(180px, 2fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.stage-row:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.stage-label { margin: 0; font-size: 14px; font-weight: 600; }
+.stage-state { margin: 2px 0 0; font-size: 12px; color: var(--ink-muted); }
+
+@media (max-width: 900px) {
+    .stage-row {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 14px 0;
+    }
+}
+
 .field-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
