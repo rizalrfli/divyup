@@ -25,7 +25,12 @@ Route::post('/logout', [AuthController::class, 'destroy'])
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin.dashboard')->name('dashboard');
+    Route::get('/projects', [Admin\ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/create', [Admin\ProjectController::class, 'create'])->name('projects.create');
+    Route::post('/projects', [Admin\ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project}', [Admin\ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/projects/{project}/edit', [Admin\ProjectController::class, 'edit'])->name('projects.edit');
+    Route::patch('/projects/{project}', [Admin\ProjectController::class, 'update'])->name('projects.update');
 });
 
 Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(function () {
