@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\AssetDownloadController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Client\PortalController;
 use App\Http\Controllers\Team;
@@ -23,6 +24,10 @@ Route::post('/logout', [AuthController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+Route::get('/assets/{asset}/download', AssetDownloadController::class)
+    ->middleware('auth')
+    ->name('assets.download');
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin.dashboard')->name('dashboard');
     Route::get('/projects', [Admin\ProjectController::class, 'index'])->name('projects.index');
@@ -38,6 +43,10 @@ Route::middleware(['auth', 'role:tim'])->prefix('tim')->name('tim.')->group(func
     Route::get('/projects/{project}', [Team\ProjectController::class, 'show'])->name('projects.show');
     Route::patch('/projects/{project}/stages/{stage}', [Team\StageController::class, 'update'])
         ->name('projects.stages.update');
+    Route::post('/projects/{project}/assets', [Team\AssetController::class, 'store'])
+        ->name('projects.assets.store');
+    Route::post('/assets/{asset}/resubmit', [Team\AssetController::class, 'resubmit'])
+        ->name('assets.resubmit');
 });
 
 Route::middleware(['auth', 'role:klien'])->prefix('portal')->name('portal.')->group(function () {
