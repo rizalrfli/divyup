@@ -58,7 +58,7 @@
                 <label for="file">Berkas</label>
                 <input id="file" name="file" type="file" accept=".png,.jpg,.jpeg,.pdf,.mp4"
                        @error('file') aria-invalid="true" aria-describedby="file-error" @enderror>
-                <p class="field-hint">PNG, JPG, PDF, atau MP4. Maksimal 50 MB per berkas.</p>
+                <p class="field-hint">PNG, JPG, PDF, atau MP4. Maksimal 4 MB per berkas.</p>
                 @error('file')<p class="field-error" id="file-error">{{ $message }}</p>@enderror
             </div>
 

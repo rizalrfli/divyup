@@ -19,7 +19,7 @@ Perintah: `php artisan test`
 | 3 | Form login kosong | Tombol Masuk tanpa isi | Validasi pada kedua kolom | "Email wajib diisi" dan "Password wajib diisi" | Berhasil |
 | 4 | Buat proyek baru | Admin mengisi form proyek | Proyek tersimpan dan muncul di daftar | Proyek tersimpan, 5 tahap dibuat otomatis | Berhasil |
 | 5 | Unggah aset kreatif | File PNG 2 MB | Tersimpan dan bisa diakses klien | Tersimpan di `storage/app/public/assets/{id}`, muncul di galeri portal | Berhasil |
-| 6 | Unggah melebihi batas | File 60 MB | Ditolak dengan pesan batas ukuran | "Ukuran file melebihi batas maksimum 50 MB", tidak ada baris aset dibuat | Berhasil |
+| 6 | Unggah melebihi batas | File 5 MB | Ditolak dengan pesan batas ukuran | "Ukuran file melebihi batas maksimum 4 MB", tidak ada baris aset dibuat | Berhasil |
 | 7 | Klien menyetujui aset | Klik Setujui | Status aset berubah, notifikasi ke tim | Status `disetujui`, satu baris `approval_logs`, notifikasi terkirim | Berhasil |
 | 8 | Minta revisi tanpa catatan | Klik Minta Revisi, catatan kosong | Validasi catatan wajib | "Catatan revisi wajib diisi", status aset tidak berubah | Berhasil |
 | 9 | Ubah status tahap | Tim mengubah tahap dari Belum ke Selesai | Status diperbarui dan tercatat di log | Status tersimpan, `completed_at` terisi, baris `activity_logs` dibuat | Berhasil |

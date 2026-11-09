@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'active' => \App\Http\Middleware\EnsureActive::class,
         ]);
 
+        // Vercel menerminasi TLS di depan container; tanpa ini redirect jadi http://.
+        $middleware->trustProxies(at: '*');
+
         $middleware->redirectGuestsTo('/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {

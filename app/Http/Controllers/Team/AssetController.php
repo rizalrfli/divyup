@@ -19,11 +19,11 @@ class AssetController
         Gate::authorize('contribute', $project);
 
         $request->validate([
-            'file' => ['required', 'file', 'mimes:png,jpg,jpeg,pdf,mp4', 'max:51200'],
+            'file' => ['required', 'file', 'mimes:png,jpg,jpeg,pdf,mp4', 'max:4096'],
             'name' => ['nullable', 'string', 'max:120', 'regex:/^[^\\\\\\/]+$/'],
         ], [
             'file.required' => 'Pilih berkas yang akan diunggah',
-            'file.max' => 'Ukuran file melebihi batas maksimum 50 MB',
+            'file.max' => 'Ukuran file melebihi batas maksimum 4 MB',
             'file.mimes' => 'Format file harus PNG, JPG, PDF, atau MP4',
             'file.file' => 'Berkas tidak terbaca, coba unggah ulang',
             'name.regex' => 'Nama tampilan tidak boleh memuat garis miring',
@@ -62,10 +62,10 @@ class AssetController
         Gate::authorize('contribute', $project);
 
         $request->validate([
-            'file' => ['required', 'file', 'mimes:png,jpg,jpeg,pdf,mp4', 'max:51200'],
+            'file' => ['required', 'file', 'mimes:png,jpg,jpeg,pdf,mp4', 'max:4096'],
         ], [
             'file.required' => 'Pilih berkas pengganti',
-            'file.max' => 'Ukuran file melebihi batas maksimum 50 MB',
+            'file.max' => 'Ukuran file melebihi batas maksimum 4 MB',
             'file.mimes' => 'Format file harus PNG, JPG, PDF, atau MP4',
         ]);
 

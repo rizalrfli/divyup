@@ -29,7 +29,7 @@
                     <li class="asset-card">
                         <div class="asset-preview">
                             @if ($asset->isImage() && \Illuminate\Support\Facades\Storage::disk('public')->exists($asset->path))
-                                <img src="{{ asset('storage/'.$asset->path) }}" alt="{{ $asset->name }}" loading="lazy">
+                                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($asset->path) }}" alt="{{ $asset->name }}" loading="lazy">
                             @elseif ($asset->isImage())
                                 <span class="file-ext">PNG</span>
                             @else

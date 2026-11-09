@@ -41,16 +41,16 @@ class AssetUploadTest extends TestCase
         Storage::disk('public')->assertExists($asset->path);
     }
 
-    public function test_file_over_fifty_megabytes_is_rejected(): void
+    public function test_file_over_four_megabytes_is_rejected(): void
     {
         Storage::fake('public');
         [$project, $team] = $this->projectForTeam();
 
-        $file = UploadedFile::fake()->create('video.mp4', 60 * 1024, 'video/mp4');
+        $file = UploadedFile::fake()->create('video.mp4', 5 * 1024, 'video/mp4');
 
         $this->actingAs($team)
             ->post("/tim/projects/{$project->id}/assets", ['file' => $file])
-            ->assertSessionHasErrors(['file' => 'Ukuran file melebihi batas maksimum 50 MB']);
+            ->assertSessionHasErrors(['file' => 'Ukuran file melebihi batas maksimum 4 MB']);
 
         $this->assertDatabaseCount('assets', 0);
     }
