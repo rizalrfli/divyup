@@ -1,7 +1,7 @@
 FROM dunglas/frankenphp:1-php8.4-bookworm AS base
 
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && install-php-extensions intl zip pdo_pgsql opcache
+    && install-php-extensions intl zip curl pdo_pgsql opcache
 
 COPY docker/php.ini "$PHP_INI_DIR/conf.d/99-app.ini"
 
