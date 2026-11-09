@@ -12,8 +12,8 @@ copy .env.example .env
 php artisan key:generate
 
 # Isi kredensial di .env:
-#   DB_*   -> Supabase > Project Settings > Database > Session pooler
-#   AWS_*  -> Supabase > Storage > S3 access keys (atau lihat catatan di bawah)
+#   DB_*        -> Supabase > Project Settings > Database > Session pooler
+#   SUPABASE_S3_* -> Supabase > Storage > S3 access keys (lihat tabel di bawah)
 
 php artisan migrate:fresh --seed
 php artisan serve
@@ -26,13 +26,15 @@ Buka `http://127.0.0.1:8000`.
 | Variabel | Diambil dari |
 |---|---|
 | `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD` | Project Settings → Database → **Session pooler** (bukan Direct connection, yang IPv6-only) |
-| `AWS_ACCESS_KEY_ID` | Project ref |
-| `AWS_SECRET_ACCESS_KEY` | Legacy `anon` key |
-| `AWS_SESSION_TOKEN` | Legacy `service_role` key |
-| `AWS_ENDPOINT` | `https://<ref>.storage.supabase.co/storage/v1/s3` |
-| `AWS_URL` | `https://<ref>.supabase.co/storage/v1/object/public/assets` |
+| `SUPABASE_S3_KEY` | Project ref |
+| `SUPABASE_S3_SECRET` | Legacy `anon` key |
+| `SUPABASE_S3_TOKEN` | Legacy `service_role` key |
+| `SUPABASE_S3_ENDPOINT` | `https://<ref>.storage.supabase.co/storage/v1/s3` |
+| `SUPABASE_S3_URL` | `https://<ref>.supabase.co/storage/v1/object/public/assets` |
 
 Bucket penyimpanan bernama `assets` dan harus publik.
+
+Prefix `SUPABASE_S3_` dipakai, bukan `AWS_*`, karena Vercel memakai `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, dan `AWS_SESSION_TOKEN` untuk kredensial Lambda-nya sendiri. Kalau memakai nama itu, nilai kita diabaikan dan AWS SDK jatuh ke metadata service Lambda sampai timeout.
 
 ## Deploy
 
